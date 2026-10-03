@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dịch Vụ - Responsive Services Grid</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset & CSS cơ bản */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #0f172a;
+      color: #e2e8f0;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Tiêu đề & Giới thiệu */
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+      font-size: 1rem;
+    }
+
+    /* Responsive indicator hiển thị trạng thái breakpoint */
+    .breakpoint-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: #1e293b;
+      color: #cbd5e1;
+      border: 1px solid #334155;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    /* ==========================================================================
+       YÊU CẦU CHÍNH: BỐ CỤC CHO .services-container (CSS Grid & Media Queries)
+       - Màn hình > 1024px: 4 cột
+       - Màn hình 768px - 1024px: 2 cột
+       - Màn hình < 768px: 1 cột
+       - gap: 20px
+       ========================================================================== */
+
+    /* 1. Mặc định: Màn hình di động < 768px hiển thị 1 cột */
+    .services-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    /* 2. Tablet: Màn hình từ 768px đến 1024px hiển thị 2 cột */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .services-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* 3. Desktop: Màn hình lớn hơn 1024px hiển thị 4 cột */
+    @media (min-width: 1025px) {
+      .services-container {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* ==========================================================================
+       STYLING CHO CÁC THẺ DỊCH VỤ (.service-card)
+       ========================================================================== */
+    .service-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      border-color: #64748b;
+      box-shadow: 0 16px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .service-card:hover::before {
+      opacity: 1;
+    }
+
+    .icon-wrapper {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      background: rgba(56, 189, 248, 0.1);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .icon-wrapper svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .service-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-bottom: 12px;
+    }
+
+    .service-desc {
+      color: #94a3b8;
+      font-size: 0.925rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #334155;
+      padding-top: 16px;
+    }
+
+    .learn-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #38bdf8;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: gap 0.2s ease;
+    }
+
+    .learn-more:hover {
+      gap: 10px;
+      color: #7dd3fc;
+    }
+
+    .learn-more svg {
+      width: 16px;
+      height: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <!-- Header phần giới thiệu -->
+    <header class="section-header">
+      <span class="section-badge">Dịch Vụ Của Tôi</span>
+      <h1 class="section-title">Giải Pháp Công Nghệ Toàn Diện</h1>
+      <p class="section-desc">
+        Cung cấp các dịch vụ thiết kế và lập trình web chuẩn chuyên nghiệp, tối ưu trải nghiệm và hiệu năng trên mọi thiết bị.
+      </p>
+      <div class="breakpoint-badge">
+        <span class="status-dot"></span>
+        <span>Bố cục CSS Grid: <strong>&gt;1024px: 4 cột</strong> | <strong>768px-1024px: 2 cột</strong> | <strong>&lt;768px: 1 cột</strong></span>
+      </div>
+    </header>
+
+    <!-- Services Container theo yêu cầu -->
+    <main class="services-container">
+      
+      <!-- Card 1: UI/UX Design -->
+      <article class="service-card">
+        <div>
+          <div class="icon-wrapper">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+            </svg>
+          </div>
+          <h2 class="service-title">Thiết Kế UI/UX</h2>
+          <p class="service-desc">
+            Xây dựng giao diện trực quan, thân thiện và hiện đại. Nghiên cứu sâu hành vi người dùng để tối đa hoá tỷ lệ chuyển đổi.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a href="#uiux" class="learn-more">
+            Chi tiết
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 2: Web Development -->
+      <article class="service-card">
+        <div>
+          <div class="icon-wrapper">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+          </div>
+          <h2 class="service-title">Phát Triển Web</h2>
+          <p class="service-desc">
+            Lập trình giao diện đáp ứng chuẩn Responsive, tương thích hoàn hảo trên các kích thước màn hình từ di động đến máy tính.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a href="#webdev" class="learn-more">
+            Chi tiết
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 3: Backend & API -->
+      <article class="service-card">
+        <div>
+          <div class="icon-wrapper">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+            </svg>
+          </div>
+          <h2 class="service-title">Hệ Thống &amp; API</h2>
+          <p class="service-desc">
+            Thiết kế kiến trúc máy chủ vững chắc, xây dựng RESTful / GraphQL API bảo mật cao và xử lý dữ liệu với tốc độ vượt trội.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a href="#backend" class="learn-more">
+            Chi tiết
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 4: Tối Ưu & SEO -->
+      <article class="service-card">
+        <div>
+          <div class="icon-wrapper">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h2 class="service-title">Tối Ưu &amp; SEO</h2>
+          <p class="service-desc">
+            Cải thiện chỉ số Core Web Vitals, tối ưu tốc độ tải trang, nâng cao thứ hạng công cụ tìm kiếm và bảo mật toàn diện.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a href="#seo" class="learn-more">
+            Chi tiết
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </article>
+
+    </main>
+  </div>
+
+</body>
+</html>
